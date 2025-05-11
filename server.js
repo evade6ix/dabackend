@@ -9,6 +9,11 @@ app.use(express.json());
 const SHOPIFY_STORE = 'game3tcg.myshopify.com';
 const SHOPIFY_API_TOKEN = process.env.SHOPIFY_API_TOKEN;
 
+// === Root Health Check ===
+app.get('/', (req, res) => {
+  res.send('✅ Shopify Order Tracker backend is working');
+});
+
 // === Order Status Endpoint ===
 app.get('/api/order-status', async (req, res) => {
   const { orderId, email } = req.query;
