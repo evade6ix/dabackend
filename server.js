@@ -3,16 +3,19 @@ const fetch = require('node-fetch');
 const cors = require('cors');
 
 const app = express();
+
+// Allow all CORS requests
 app.use(cors());
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"); // Allow all origins
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use(express.json());
 
 const SHOPIFY_STORE = 'game3tcg.myshopify.com';
 const SHOPIFY_API_TOKEN = process.env.SHOPIFY_API_TOKEN;
-
-// === Root Health Check ===
-app.get('/', (req, res) => {
-  res.send('✅ Shopify Order Tracker backend is working');
-});
 
 // === Order Status Endpoint ===
 app.get('/api/order-status', async (req, res) => {
@@ -57,7 +60,7 @@ app.get('/api/order-status', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`[✅ ORDER TRACKER READY] Listening on port ${PORT}`);
 });
